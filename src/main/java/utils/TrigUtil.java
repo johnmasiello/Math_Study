@@ -42,14 +42,15 @@ public class TrigUtil {
         final double x = PI / 2 - abs(PI / 2 - t2);
         final double sign = signum(PI / 2 - t2);
 
-        // Approximate first term using a 'many' half-angle of the input angle/value, restricted to [-pi/2, pi/2].
+        // Approximate first term using a 'many' half-angle of the input angle/value, restricted to [0, pi/2].
         // The first term is meant to approximate sin x
         double sin = x / (1 << iterations);
 
-        // The second term is meant to approximate cos (2x)
+        // The second term is meant to approximate cos (2x), using double angle.
         double cos = 1 - 2 * sin * sin;
         // remaining n - 1 terms to compute the final term
         for (int i = 1; i < iterations; i++) {
+            // Double angle formula applied here is used to double to get to x coterminal angle of input.
             cos = 2 * cos * cos - 1;
         }
         return sign * cos;
@@ -67,7 +68,7 @@ public class TrigUtil {
         double sin2 = sin * sin;
         // remaining n terms to compute the final term
         for (int i = 0; i < iterations; i++) {
-            // Double angle formula applied here is used to double to get to x coterminal angle of input
+            // Double angle formula applied here is used to double to get to x coterminal angle of input.
             // Incidentally, this happens to be an instance of the Logistic Map
             sin2 = 4.0 * sin2 * (1 - sin2);
         }
